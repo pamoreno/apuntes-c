@@ -47,7 +47,7 @@ Este operador, aplicado sobre una variable o función, nos da su dirección de m
 Por ejemplo, dado el siguiente código
 
 ``` c linenums="1" title="dirop.c"
---8<-- "apuntes/punteros/src/dirop.c"
+--8<-- "punteros/src/dirop.c"
 ```
 
 Y el resultado de ejecutar dicho programa puede ser:
@@ -100,7 +100,7 @@ Siguiendo el caso donde `ip` es un puntero a entero, y particularmente apunta a 
 El código completo para modificación de la variable podría ser:
 
 ``` c linenums="1" hl_lines="11 11 17 17"
---8<-- "apuntes/punteros/src/dirmod.c"
+--8<-- "punteros/src/dirmod.c"
 ```
 
 Que al ser compilado y ejecutado muestra lo siguiente:
@@ -128,7 +128,7 @@ que el dato apuntado ocupa 4 bytes.
     `c`, el `#!c char`.
 
     ``` c linenums="1" title="dirmod_w.c"
-    --8<-- "apuntes/punteros/src/dirmod_w.c"
+    --8<-- "punteros/src/dirmod_w.c"
     ```
 
     Lo primero que debemos notar es que al compilar, en este caso, nos muestra un **warning**:
@@ -217,7 +217,7 @@ Lo sabemos porque nosotros lo programamos, u otra variable nos los indicó (o en
     === "Iteración 1"
 
         ``` c linenums="1" title="iteracion1.c"
-        --8<-- "apuntes/punteros/src/iteracion1.c"
+        --8<-- "punteros/src/iteracion1.c"
         ```
 
         ``` console title="Ejecución"
@@ -231,7 +231,7 @@ Lo sabemos porque nosotros lo programamos, u otra variable nos los indicó (o en
     === "Iteración 2"
 
         ``` c linenums="1" title="iteracion2.c"
-        --8<-- "apuntes/punteros/src/iteracion2.c"
+        --8<-- "punteros/src/iteracion2.c"
         ```
 
         ``` console title="Ejecución"
@@ -247,7 +247,7 @@ Lo sabemos porque nosotros lo programamos, u otra variable nos los indicó (o en
     === "Iteración 3"
 
         ``` c linenums="1" title="iteracion3.c"
-        --8<-- "apuntes/punteros/src/iteracion3.c"
+        --8<-- "punteros/src/iteracion3.c"
         ```
 
         ``` console title="Ejecución"
@@ -266,7 +266,7 @@ Lo sabemos porque nosotros lo programamos, u otra variable nos los indicó (o en
     === "Iteración 4"
 
         ``` c linenums="1" title="iteracion4.c"
-        --8<-- "apuntes/punteros/src/iteracion4.c"
+        --8<-- "punteros/src/iteracion4.c"
         ```
 
         ``` console title="Ejecución"
@@ -374,7 +374,7 @@ varios cuadrados, y los punteros con flechas hacia las variables a las que apunt
     llamadas `maximo`.
 
     ``` c linenums="1"
-    --8<-- "apuntes/punteros/src/ptr_array.c"
+    --8<-- "punteros/src/ptr_array.c"
     ```
 
 Si volvemos sobre la figura 7, podemos ver que el contenido del arreglo de punteros son direcciones de memoria que
@@ -436,7 +436,7 @@ cantidad de elementos en cada fila, en cada cadena.
     Veremos que es muy similar al ejemplo anterior.
 
     ``` c linenums="1"
-    --8<-- "apuntes/punteros/src/ptr_array_2.c"
+    --8<-- "punteros/src/ptr_array_2.c"
     ```
 
 ### Arreglos de cadenas
@@ -544,13 +544,13 @@ Un primer ejemplo en el que utilizamos punteros para las funciones es cuando uti
 Por ejemplo, si implementamos una función para calcular el valor medio de un arreglo de `#!c double`s:
 
 ``` c title="meand.c" linenums="1"
---8<-- "apuntes/punteros/src/meand.c"
+--8<-- "punteros/src/meand.c"
 ```
 
 Veamos qué ocurre al ejecutarla:
 
 ``` c title="Test meand.c" linenums="1"
---8<-- "apuntes/punteros/src/test_meand.c"
+--8<-- "punteros/src/test_meand.c"
 ```
 
 ``` console title="Compilación y ejecución"
@@ -567,7 +567,7 @@ Y vemos que la ejecución es correcta.
 === "Array de largo cero"
 
     ``` c title="Test meand.c con array de largo cero" linenums="1"
-    --8<-- "apuntes/punteros/src/test_zero_meand.c"
+    --8<-- "punteros/src/test_zero_meand.c"
     ```
 
     ``` console title="Compilación y ejecución" hl_lines="5"
@@ -581,7 +581,7 @@ Y vemos que la ejecución es correcta.
 === "`#!c NULL` como array"
 
     ``` c title="Test meand.c con NULL" linenums="1"
-    --8<-- "apuntes/punteros/src/test_null_meand.c"
+    --8<-- "punteros/src/test_null_meand.c"
     ```
 
     ``` console title="Compilación y ejecución" hl_lines="5"
@@ -616,13 +616,13 @@ retorno indicaremos si lo pudimos calcular o no.
 Para ello, modificamos el código de `meand()` como se muestra a continuación:
 
 ``` c title="meand_ok.c" linenums="1"
---8<-- "apuntes/punteros/src/meand_ok.c"
+--8<-- "punteros/src/meand_ok.c"
 ```
 
 Cuyo "test" completo es:
 
 ``` c title="meand_ok.c" linenums="1"
---8<-- "apuntes/punteros/src/test_meand_ok.c"
+--8<-- "punteros/src/test_meand_ok.c"
 ```
 
 ``` console title="Compilación y ejecución"
@@ -663,25 +663,25 @@ Prueba con arreglo NULL:
     === "`status.h`"
 
         ``` c title="status.h" linenums="1"
-        --8<-- "apuntes/punteros/src/status.h"
+        --8<-- "punteros/src/status.h"
         ```
 
     === "`meand.h`"
 
         ``` c title="meand.h" linenums="1"
-        --8<-- "apuntes/punteros/src/meand.h"
+        --8<-- "punteros/src/meand.h"
         ```
 
     === "`meand.c`"
 
         ``` c title="meand.c" linenums="1"
-        --8<-- "apuntes/punteros/src/meand_st.c"
+        --8<-- "punteros/src/meand_st.c"
         ```
 
     === "`test.c`"
 
         ``` c title="test.c" linenums="1"
-        --8<-- "apuntes/punteros/src/test_st.c"
+        --8<-- "punteros/src/test_st.c"
         ```
 
     === "Compilación y ejecución"

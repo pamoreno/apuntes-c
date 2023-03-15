@@ -66,7 +66,7 @@ Es decir, la cadena `#!c "Hola Mundo!"` tiene largo 11, pero ocupa 12 bytes.
 Para calcular el largo de una cadena, se puede utilizar el siguiente código:
 
 ``` c title="Cálculo del largo de una cadena" linenums="1" hl_lines="9"
---8<-- "apuntes/cadenas/len.c"
+--8<-- "cadenas/len.c"
 ```
 
 El ciclo anterior es un ciclo con un cuerpo vacío.
@@ -120,7 +120,7 @@ Pero eso es muy fácil que suceda:
 === "Programa"
 
     ``` c linenums="1"
-    --8<-- "apuntes/cadenas/scanf.c"
+    --8<-- "cadenas/scanf.c"
     ```
 
 === "Ejecución"
@@ -155,7 +155,7 @@ entrada (`stdin` por el momento).
 === "Programa"
 
     ``` c
-    --8<-- "apuntes/cadenas/fgets.c"
+    --8<-- "cadenas/fgets.c"
     ```
 
 === "Ejecución típica"
@@ -233,7 +233,7 @@ Podemos ver que es similar a `scanf()`, sólo que tiene otra cadena antes del fo
 Entonces, la podemos utilizar del siguiente modo:
 
 ``` c title="Uso de `sscanf()`" linenums="1"
---8<-- "apuntes/cadenas/sscanf.c"
+--8<-- "cadenas/sscanf.c"
 ```
 
 Sin embargo, existen otras funciones que podemos utilizar para convertir los valores, y se llaman `strtoX()` donde `X`
@@ -241,7 +241,7 @@ puede ser `l` para convertir a `long int`, `d` para convertir a `double`, `ul` p
 ahora, las utilizaremos del siguiente modo (equivalente a utilizar `sscanf()`):
 
 ``` c title="Uso de `strtoX()`" linenums="1"
---8<-- "apuntes/cadenas/strtoX.c"
+--8<-- "cadenas/strtoX.c"
 ```
 
 !!! attention "No free lunch"
@@ -321,7 +321,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     Es una función equivalente a `strlen` de `string.h`.
 
     ``` c linenums="1" title="mi_strlen"
-    --8<-- "apuntes/cadenas/mi_strlen.c"
+    --8<-- "cadenas/mi_strlen.c"
     ```
 
 === "`mi_strchr`"
@@ -331,7 +331,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     Es similar a función `strchr` de `string.h`.
 
     ``` c linenums="1" title="mi_strchr"
-    --8<-- "apuntes/cadenas/mi_strchr.c"
+    --8<-- "cadenas/mi_strchr.c"
     ```
 
 === "`mi_strreplace`"
@@ -341,7 +341,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     En particular, si `n` es `-1`, se reemplazan todas las que haya.
 
     ``` c linenums="1" title="mi_strreplace"
-    --8<-- "apuntes/cadenas/mi_strreplace.c"
+    --8<-- "cadenas/mi_strreplace.c"
     ```
 
 === "`mi_strcpy`"
@@ -349,7 +349,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     También podemos escribir una función para copiar una cadena en un arreglo.
 
     ``` c linenums="1" title="mi_strcpy"
-    --8<-- "apuntes/cadenas/mi_strcpy.c"
+    --8<-- "cadenas/mi_strcpy.c"
     ```
 
 === "`mi_strcat`"
@@ -357,7 +357,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     O para concatenar cadenas (el operador `+` no funciona con cadenas):
 
     ``` c linenums="1" title="mi_strcat"
-    --8<-- "apuntes/cadenas/mi_strcat.c"
+    --8<-- "cadenas/mi_strcat.c"
     ```
 
 === "`mi_strcmp`"
@@ -365,7 +365,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     O para comparar cadenas (los operadores de comparación no funcionan con cadenas):
 
     ``` c linenums="1" title="mi_strcmp"
-    --8<-- "apuntes/cadenas/mi_strcmp.c"
+    --8<-- "cadenas/mi_strcmp.c"
     ```
 
 === "`print_str_array`"
@@ -373,7 +373,7 @@ Veamos las siguientes funciones, que podríamos implementar.
     Mezclando arreglos y cadenas en una función para imprimir un arreglo de cadenas.
 
     ``` c linenums="1" title="print_str_array"
-    --8<-- "apuntes/cadenas/print_str_array.c"
+    --8<-- "cadenas/print_str_array.c"
     ```
 
 !!! note "Ejercicio"

@@ -139,7 +139,7 @@ Para verificar esto, veamos el siguiente ejemplo.
     por `#!c stdout`.
 
     ``` c linenums="1"
-    --8<-- "apuntes/cla/primero.c"
+    --8<-- "cla/primero.c"
     ```
 
     Y al ejecutarlo podemos ver lo siguiente:
@@ -183,7 +183,7 @@ Sin embargo, podemos partir del siguiente código:
 === "Código principal"
 
     ``` c linenums="1" title="Divisor: código base"
-    --8<-- "apuntes/cla/divisor.c"
+    --8<-- "cla/divisor.c"
     ```
 
 === "Auxiliares"
@@ -191,19 +191,19 @@ Sin embargo, podemos partir del siguiente código:
     === "`arg_parser.h`"
 
         ``` c linenums="1"
-        --8<-- "apuntes/cla/arg_parser.h"
+        --8<-- "cla/arg_parser.h"
         ```
 
     === "`status.h`"
 
         ``` c linenums="1"
-        --8<-- "apuntes/cla/status.h"
+        --8<-- "cla/status.h"
         ```
 
     === "`status.c`"
 
         ``` c linenums="1"
-        --8<-- "apuntes/cla/status.c"
+        --8<-- "cla/status.c"
         ```
 
 ### Argumentos posicionales
@@ -217,7 +217,7 @@ Para ello, tenemos que asegurarnos que la cantidad de argumentos es la necesaria
 `argc`.
 
 ``` c linenums="1" title="Procesamiento posicional"
---8<-- "apuntes/cla/arg_posicional.c"
+--8<-- "cla/arg_posicional.c"
 ```
 
 La función implementada chequea que los argumentos recibidos sean válidos y luego intenta convertir los argumentos
@@ -257,7 +257,7 @@ mediante los argumentos `--numerador` y `--denominador`, debemos modificar la fu
 Para ello, podríamos implementar la función del siguiente modo:
 
 ``` c linenums="1" title="Procesamiento no posicional"
---8<-- "apuntes/cla/arg_no_posicional_1.c"
+--8<-- "cla/arg_no_posicional_1.c"
 ```
 
 En este caso, el primer `for` itera por los argumentos que ingresa el usuario mientras que el segundo `for` itera por
@@ -300,7 +300,7 @@ Sin embargo, no implica que se la mejor forma de hacerlo (de hecho, hay muchas m
 Una forma típica es utilizando estructuras, tema aún no cubierto :slight_smile:.
 
 ``` c linenums="1" title="Procesamiento no posicional"
---8<-- "apuntes/cla/arg_no_posicional_2.c"
+--8<-- "cla/arg_no_posicional_2.c"
 ```
 
 La resolución propuesta agrega los argumentos necesarios como un par de argumentos adicionales, que no guardan relación

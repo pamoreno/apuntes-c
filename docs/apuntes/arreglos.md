@@ -154,7 +154,7 @@ La sentencia anterrior se lee del siguiente modo: `array` es un arreglo de 5 ent
 Si compilan el siguiente programa:
 
 ``` c
---8<-- "apuntes/arreglos/const_array.c"
+--8<-- "arreglos/const_array.c"
 ```
 
 verán el siguiente error:
@@ -373,7 +373,7 @@ El operador `#!c sizeof` nos puede dar el tamaño en bytes de un arreglo definid
 el siguiente ejemplo:
 
 ``` c linenums="1"
---8<-- "apuntes/arreglos/sizeof.c"
+--8<-- "arreglos/sizeof.c"
 ```
 
 que al ser compilado y ejecutado muestra:
@@ -428,7 +428,7 @@ A continuación se muestran programas que ejemplifican este hecho:
     ocurrir que sí):
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/sigsegv_no.c"
+    --8<-- "arreglos/sigsegv_no.c"
     ```
 
 === "_off-by-many_"
@@ -437,7 +437,7 @@ A continuación se muestran programas que ejemplifican este hecho:
     constante `WRONG_SIZE` para que lo haga.
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/sigsegv_si.c"
+    --8<-- "arreglos/sigsegv_si.c"
     ```
 
 ## Arreglos y funciones
@@ -449,7 +449,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     Una función que inicializa un vector con 0.
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/zeros.c"
+    --8<-- "arreglos/zeros.c"
     ```
 
 === "random"
@@ -457,7 +457,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     Una función que inicializa un vector con valores random en el intervalo $[a, b)$.
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/random.c"
+    --8<-- "arreglos/random.c"
     ```
 
 === "sum"
@@ -465,7 +465,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     Suma de todos los elementos del vector.
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/sum.c"
+    --8<-- "arreglos/sum.c"
     ```
 
 === "sumar"
@@ -473,7 +473,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     Suma 2 vectores de igual longitud en un tercer vector (de igual o mayor longitud):
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/sumar.c"
+    --8<-- "arreglos/sumar.c"
     ```
 
 === "matriz ones"
@@ -489,7 +489,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     valores como máximo (pero podemos utilizar una submatriz).
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/matr_ones.c"
+    --8<-- "arreglos/matr_ones.c"
     ```
 
 === "traza"
@@ -505,7 +505,7 @@ A continuación se dan ejemplos de funciones que operan con arreglos:
     valores como máximo (pero podemos utilizar una submatriz).
 
     ``` c linenums="1"
-    --8<-- "apuntes/arreglos/traza.c"
+    --8<-- "arreglos/traza.c"
     ```
 
 

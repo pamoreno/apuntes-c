@@ -471,7 +471,7 @@ data = aux;
     A continuación pueden ver una versión completa del código desarrollado en esta sección:
 
     ``` c linenums="1"
-    --8<-- "apuntes/memdin/3_4_array.c"
+    --8<-- "memdin/3_4_array.c"
     ```
 
 
