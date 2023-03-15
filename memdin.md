@@ -564,6 +564,8 @@ double **dmatrix_create(size_t rows, size_t colums)
             return NULL;
         }
     }
+
+    return matrix;
 }
 ```
 
