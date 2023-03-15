@@ -440,7 +440,79 @@ A continuación se muestran programas que ejemplifican este hecho:
     --8<-- "apuntes/arreglos/sigsegv_si.c"
     ```
 
+## Arreglos y funciones
+
+A continuación se dan ejemplos de funciones que operan con arreglos:
+
+=== "zeros"
+
+    Una función que inicializa un vector con 0.
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/zeros.c"
+    ```
+
+=== "random"
+
+    Una función que inicializa un vector con valores random en el intervalo $[a, b)$.
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/random.c"
+    ```
+
+=== "sum"
+
+    Suma de todos los elementos del vector.
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/sum.c"
+    ```
+
+=== "sumar"
+
+    Suma 2 vectores de igual longitud en un tercer vector (de igual o mayor longitud):
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/sumar.c"
+    ```
+
+=== "matriz ones"
+
+    Carga unos en una matriz de `r` filas y `c` columnas.
+    La matriz debe estar definida como:
+
+    ``` c
+    double matriz[200][200];
+    ```
+
+    En este caso, se debe cumplir que la cantidad de filas y columnas sea menor a 200, ya que la matriz tiene esos
+    valores como máximo (pero podemos utilizar una submatriz).
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/matr_ones.c"
+    ```
+
+=== "traza"
+
+    Calcula la traza de una matriz de `r` filas y `r` columnas (la traza está definida para matrices cuadradas).
+    La matriz debe estar definida como:
+
+    ``` c
+    double matriz[200][200];
+    ```
+
+    En este caso, se debe cumplir que la cantidad de filas y columnas sea menor a 200, ya que la matriz tiene esos
+    valores como máximo (pero podemos utilizar una submatriz).
+
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/traza.c"
+    ```
+
 
 ## Biblioteca estándar para manejo de arreglos
 
 No hay ninguna biblioteca estándar para la manipulación de arreglos.
+
+## Guías de ejercicios
+
+La guía de ejercicios de arreglos se encuentra [aquí](../../guias/c/arreglos/).
