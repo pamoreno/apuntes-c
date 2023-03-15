@@ -380,6 +380,22 @@ Veamos las siguientes funciones, que podríamos implementar.
 
     Escribir programas que testeen las funciones provistas en búsqueda de errores ¿qué casos se les ocurre probar?
 
+
+!!! note "Ejercicio"
+
+    ¿Cómo se implementarían funciones equivalentes a las anteriores pero que operan sobre arreglos de cadenas?
+    Por ejemplo, el prototipo para la función que calcular muchos largos puede ser:
+
+    ``` c
+    void arr_strlen(size_t lengths[], char strs[][200], size_t n);
+    ```
+
+    o
+
+    ``` c
+    void arr_strlen(size_t lengths[], char *strs[], size_t n);
+    ```
+
 ## Biblioteca estándar para manejo de cadenas
 
 Existe una biblioteca estándar para el uso de cadenas, `string.h`.
