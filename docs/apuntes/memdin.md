@@ -520,7 +520,7 @@ double **dmatrix_create(size_t rows, size_t colums)
     }
 
     for (size_t i = 0; i < rows; ++i) {
-        matrix[i] = malloc(columns * sizeof(double);
+        matrix[i] = malloc(columns * sizeof(double));
         if (NULL == matrix[i]) {
             ?????
 ```
@@ -645,9 +645,10 @@ status_t argv_clone(char ***sarray, char *argv[])
     if (NULL == clone) {
         return ST_ERR_NO_MEM;
     }
+    alloc_size = 7;
 
     for (used_size = 0; NULL != argv[used_size]; ++used_size) {
-        if (used_size == alloc_size) {
+        if (used_size == alloc_size - 1) {
             aux = realloc(clone, alloc_size * 2 * sizeof(char *));
             if (NULL == aux) {
                 sarray_free(&clone, i);
@@ -662,6 +663,7 @@ status_t argv_clone(char ***sarray, char *argv[])
             return ST_ERR_NO_MEM;
         }
     }
+    clone[used_size] = NULL;
 
     *sarray = clone;
     return ST_OK;
