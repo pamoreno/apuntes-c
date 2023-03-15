@@ -154,17 +154,7 @@ La sentencia anterrior se lee del siguiente modo: `array` es un arreglo de 5 ent
 Si compilan el siguiente programa:
 
 ``` c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(void)
-{
-    const int array[5];
-
-    array[2] = array[0] + array[1];
-
-    return EXIT_SUCCESS;
-}
+--8<-- "apuntes/arreglos/const_array.c"
 ```
 
 verán el siguiente error:
@@ -382,26 +372,8 @@ Por otro lado, al ser arreglos estáticos, desde su definición podemos saber cu
 El operador `#!c sizeof` nos puede dar el tamaño en bytes de un arreglo definido **estáticamente**, como se muestra en
 el siguiente ejemplo:
 
-``` c
-#include <stdio.h>
-#include <stdlib.h>
-
-#define SIZE 7
-
-int main(void)
-{
-    char carray[SIZE];
-    short sarray[SIZE];
-    int iarray[SIZE];
-    double darray[SIZE];
-
-    printf("  sizeof char array: %lu bytes\n", sizeof(carray));
-    printf(" sizeof short array: %lu bytes\n", sizeof(sarray));
-    printf("   sizeof int array: %lu bytes\n", sizeof(iarray));
-    printf("sizeof double array: %lu bytes\n", sizeof(darray));
-
-    return EXIT_SUCCESS;
-}
+``` c linenums="1"
+--8<-- "apuntes/arreglos/sizeof.c"
 ```
 
 que al ser compilado y ejecutado muestra:
@@ -455,29 +427,8 @@ A continuación se muestran programas que ejemplifican este hecho:
     Como el siguiente programa tiene un acceso inválido por un elemento, es **posible** que no falle (aunque podría
     ocurrir que sí):
 
-    ``` c
-    #include <stdio.h>
-    #include <stdlib.h>
-
-    #define SIZE 5
-
-    int main(void)
-    {
-        int array[SIZE] = {0};
-
-        for (size_t i = 0; i <= SIZE; ++i) {
-            array[i] = i;
-        }
-
-        for (size_t i = 0; i <= SIZE; ++i) {
-            if (SIZE == i) {
-                puts("---- limite ----");
-            }
-            printf("array[%lu] => %i\n", i, array[i]);
-        }
-
-        return EXIT_SUCCESS;
-    }
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/sigsegv_no.c"
     ```
 
 === "_off-by-many_"
@@ -485,30 +436,8 @@ A continuación se muestran programas que ejemplifican este hecho:
     El siguiente programa está pensando para que falle, sin embargo, puede ser necesario aumentar el valor de la
     constante `WRONG_SIZE` para que lo haga.
 
-    ``` c
-    #include <stdio.h>
-    #include <stdlib.h>
-
-    #define SIZE 5
-    #define WRONG_SIZE 20 * (SIZE)
-
-    int main(void)
-    {
-        int array[SIZE] = {0};
-
-        for (size_t i = 0; i <= WRONG_SIZE; ++i) {
-            array[i] = i;
-        }
-
-        for (size_t i = 0; i <= WRONG_SIZE; ++i) {
-            if (SIZE == i) {
-                puts("---- limite ----");
-            }
-            printf("array[%lu] => %i\n", i, array[i]);
-        }
-
-        return EXIT_SUCCESS;
-    }
+    ``` c linenums="1"
+    --8<-- "apuntes/arreglos/sigsegv_si.c"
     ```
 
 
