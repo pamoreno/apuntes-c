@@ -698,3 +698,11 @@ Prueba con arreglo NULL:
         Prueba con arreglo NULL:
                 No se pudo calcular la media (posiblemente el puntero nulo tenga algo que ver)
         ```
+
+## Biblioteca estándar para manejo de punteros
+
+No hay ninguna biblioteca estándar para la manipulación de punteros.
+
+## Guías de ejercicios
+
+La guía de ejercicios de punteros se encuentra [aquí](../../guias/c/punteros/).
