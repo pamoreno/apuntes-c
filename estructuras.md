@@ -159,13 +159,13 @@ status_t vector_suma(vector3_t *out, vector3_t v1, vector3_t v2);
 
     En este caso, utilicé una convensión típica en la que se define un tipo nuevo con sufijo `_t`.
     Otra convensión utiliza camelCase, definiendo el tipo como `Vector3` en lugar de `vector3_t`, es decir:
-    
+
     ``` c
     typedef struct Vector3 Vector3;
     ```
-    
+
     En estos casos, suele utilizarse el camelCase incluso al definir la estructura, con la siguiente notación:
-    
+
     ``` c
     struct Vector3 {
         double x;
@@ -173,9 +173,9 @@ status_t vector_suma(vector3_t *out, vector3_t v1, vector3_t v2);
         double z;
     };
     ```
-    
+
     o bien
-    
+
     ``` c
     typedef struct {
         double x;
@@ -228,6 +228,28 @@ que, por otro lado, es más simple de leer haciendo uso de la definición del ti
 status_t vector_suma(vector3_t *out, const vector3_t *v1, const vector3_t *v2);
 ```
 
+## Inicialización
+
+Al momento de definir una variable de un tipo que es una estructura se pueden asignar valores a cada uno de sus
+componentes.
+Para ello hay 2 formas de hacerlo: en orden o por nombres.
+En un primer modo, en orden, la estructura se inicializa como si fuese un arreglo, dándole valor a cada uno de los
+miembros de la estructura en el orden en que fue definida.
+En el caso de la estructura `#!c struct vector3` haríamos:
+
+``` c title="Inicialización estática de una estructura (1)"
+struct vector3 vec1 = {0.2, 19.3, 1e-2};
+```
+
+mientras que si cargamos los miembros indicandos sus nombres haríamos:
+
+``` c title="Inicialización estática de una estructura (1)"
+struct vector3 vec1 = {.x = 0.2, .y = 19.3, .z = 1e-2};
+```
+
+Típicamente, incluso con los nombres se inicializan en el orden en que fueron declarados los miembros.
+La elección entre un modo u otro es meramente por claridad a la hora de leer el código.
+
 ## Acceso
 
 Hemos visto cómo definir estructuras, pero no cómo acceder a sus miembros.
@@ -264,34 +286,326 @@ pv2 = &v2;
 (*pv1).z = (*v2).z;
 ```
 
-Sin embargo, esta escritura se vuelve engorrosa cuando tenemos múltiples estructuras anidadas, por ejemplo:
+Sin embargo, esta escritura se vuelve engorrosa cuando tenemos múltiples estructuras anidadas.
+Supongamos una estructura `empleado_t`.
+Esta estructura está compuesta por dos cadenas de caracteres dinámicas (`char *`) para el nombre y apellido, un
+puntero a una estructura de tipo `empresa_t` que define la empresa en la que trabaja el empleado, un enumerativo para su
+cargo y un número para su salario.
+A su vez, la estructura `empresa_t` está definida por cadenas de caracteres dinámicas para su razón social, su CUIT y su
+dirección.
+La figura 1 nos da un esquema de este tipo.
+
+<figure markdown>
+![](estructuras/empleado.svg)
+<caption>**Fig. 1:** Diagrama de la estructura `empleado_t` con estructuras anidadas.</caption>
+</figure>
+
+El código que implementa esta la figura 1 se muestra a continuación:
 
 ``` c linenums="1"
-typedef struct empleo {
-    char *empresa;
-    cargo_t cargo;
-    double salario;
-} empleo_t;
+typedef struct empresa {
+    char *nombre;
+    char *cuit;
+    char *direccion;
+} empresa_t;
 
 typedef struct empleado {
     char *nombre;
     char *apellido;
-    empleo_t *empleo;
+    empresa *empresa;
+    cargo_t cargo;
+    double salario;
 } empleado_t;
-...
-empleado_t empleado;
-empleado_t *puntero = &empleado;
-...
-puts((*(*puntero).empleo).empresa);
 ```
 
-por eso se utiliza el operador `->` para acceder a los miembros de una estructura cuando se posee un puntero a la misma.
+Luego, podemos definir variables y utilizarlas del siguiente modo (utilizando notación de punteros):
+
+``` c linenums="14"
+...
+empresa_t ypf = {"YPF S.A.", "30-54668997-9", "Macacha Güemes 515"};
+empleado_t empleado = {"Nombre", "Ficticio", &ypf, CARGO_VP_IPD, 945021.2};
+empleado_t *puntero = &empleado;
+...
+puts((*(*puntero).empresa).nombre);
+```
+
+Como podemos ver, es una notación sumamente ofuscada.
+Por eso se utiliza el operador `->` para acceder a los miembros de una estructura cuando se posee un puntero a la misma.
 El mismo ejemplo que antes, pero utilizando el operador `->` se convierte en:
 
-``` c linenums="16"
-puts(puntero->empleo->empresa);
+``` c linenums="19"
+puts(puntero->empleo->nombre);
 ```
 
 Vemos que la notación es `<puntero a estructura> -> <miembro>`.
-Como aclaración, dependiendo de la fuente que utilice el navegador podemos ver el operador como una flecha, pero en
+Como aclaración, dependiendo de la fuente que utilice el navegador podríamos ver el operador como una flecha, pero en
 realidad es un guión `-` y un `>` juntos.
+
+!!! example "Ejemplo: creación de estructuras"
+
+    ¿Cómo haríamos si quisiéramos crear una estructura del tipo `empresa_t`?
+    ¿Y una estructura del tipo `empleado_t`?
+    A continuación se dan ejemplos de funciones que cargar/crean estructuras de tipo `empresa_t`
+
+    === "Estática"
+
+        ``` c linenums="1"
+        status_t empresa_cargar(empresa_t *empresa, const char *razon_social, const char *cuit, const char *direccion)
+        {
+            if ((NULL == empresa) || (NULL == razon_social) || (NULL == cuit) || (NULL == direccion)) {
+                return ST_ERR_NULL_PTR;
+            }
+
+            empresa->nombre = strdup(razon_social);
+            if (NULL == empresa->nombre) {
+                return ST_ERR_ENOMEM;
+            }
+
+            empresa->cuit = strdup(cuit);
+            if (NULL == empresa->cuit) {
+                free(empresa->nombre);
+                return ST_ERR_ENOMEM;
+            }**
+            empresa->direccion = strdup(direccion);
+            if (NULL == empresa->direccion) {
+                free(empresa->cuit);
+                free(empresa->nombre);
+                return ST_ERR_ENOMEM;
+            }
+
+            return ST_OK;
+        }
+        ```
+
+        Notar que esta función **no crea** una estructura, sino que carga los datos en una ya creada.
+        Por ejemplo:
+
+        ``` c linenums="1"
+        empresa_t ypf;
+        status_t st;
+        ...
+        st = empresa_cargar(&ypf, "YPF S.A.", "30-54668997-9", "Macacha Güemes 515");
+        ```
+
+    === "Dinámica"
+
+        ``` c linenums="1" hl_lines="7"
+        status_t empresa_crear(empresa_t **empresa, const char *razon_social, const char *cuit, const char *direccion)
+        {
+            if ((NULL == empresa) || (NULL == razon_social) || (NULL == cuit) || (NULL == direccion)) {
+                return ST_ERR_NULL_PTR;
+            }
+
+            *empresa = (empresa_t *) calloc(1, sizeof(empresa_t));
+            if (NULL == *empresa) {
+                return ST_ERR_ENOMEM;
+            }
+
+            (*empresa)->nombre = strdup(razon_social);
+            if (NULL == (*empresa)->nombre) {
+                free(*empresa);
+                *empresa = NULL;
+                return ST_ERR_ENOMEM;
+            }
+
+            (*empresa)->cuit = strdup(cuit);
+            if (NULL == (*empresa)->cuit) {
+                free((*empresa)->nombre);
+                free(*empresa);
+                *empresa = NULL;
+                return ST_ERR_ENOMEM;
+            }
+            (*empresa)->direccion = strdup(direccion);
+            if (NULL == (*empresa)->direccion) {
+                free((*empresa)->cuit);
+                free((*empresa)->nombre);
+                free(*empresa);
+                *empresa = NULL;
+                return ST_ERR_ENOMEM;
+            }
+
+            return ST_OK;
+        }
+        ```
+
+    !!! note "Ejercicio"
+
+        La implementación de las funciones análogas para `empleado_t` se dejan al lector.
+
+    Un ejemplo de una función que recibe una estructura, constante, es aquella que la imprime, por ejemplo:
+
+    ``` c linenums="1"
+    void empresa_print_csv(const empresa_t *empresa)
+    {
+        if (NULL != empresa) {
+            printf("\"%s\",\"%s\",\"%s\"", empresa->nombre, empresa->cuit, empresa->direccion);
+        }
+    }
+
+    void empresa_print_pretty(const empresa_t *empresa)
+    {
+        if (NULL != empresa) {
+            printf("Razón Social: %s\n", empresa->nombre);
+            printf("CUIT: %s\n", empresa->cuit);
+            printf("Dirección: %s\n", empresa->direccion);
+        }
+    }
+
+    void empleado_print_csv(const empleado_t *empleado)
+    {
+        if (NULL != empleado) {
+            printf("\"%s\",\"%s\",", empleado->nombre, empleado->apellido);
+            printf("\"%s\",\"%s\",\"%s\",", empleado->empresa->nombre, empleado->empresa->cuit, empleado->empresa->direccion);
+            printf("\"%s\",\"%.4f\",", cargo_to_str(empleado->cargo), empleado->salario);
+        }
+    }
+    ```
+
+## Arreglos de estructuras
+
+Los arreglos de estructuras podemos definirlos de 2 maneras, como todo arreglo: estático o dinámico.
+Un arreglo estático se define como cualquier otro arreglo, considerando que el tipo ahora es `#!c struct nombre` o
+`nombre_t`:
+
+``` c
+vector3_t vectores[100];
+```
+
+Esta sentencia crea un arreglo de 100 estructuras de tipo `vector3_t` y ocupa un espacio dado por `#!c
+sizeof(vectores)`, que es igual a `#!c 100 * sizeof(vector3_t)`.
+
+Si lo definimos en forma dinámica, tenemos que recordar que necesitamos un puntero a una estructura (o muchas, que es lo
+mismo para el puntero) y su cantidad.
+En este caso, para crear un arreglo de 100 estructuras agregaremos las sentencias:
+
+``` c
+vector3_t *vectores;
+...
+vectores = (vector3_t *) malloc(100 * sizeof(vector3_t));
+if (NULL == vectores) { ... }
+```
+
+o bien, lo podemos hacer con `calloc`:
+
+``` c
+vector3_t *vectores;
+...
+vectores = (vector3_t *) calloc(100, sizeof(vector3_t));
+if (NULL == vectores) { ... }
+```
+
+Luego, podemos acceder a cualquier estructura del arreglo mediante el índice, y accedemos a los miembros de la
+estructura utilizando el operador `.` como se muestra a continuación:
+
+``` c
+printf("(%.4f, %.4f, %.4f)", vectores[42].x, vectores[42].y, vectores[42].z);
+```
+
+## Arreglo de punteros a estructuras
+
+En este caso, lo más común es tener arreglos dinámicos de estructuras también dinámicas.
+Para ello, tenemos que definir un puntero doble, es decir, un arreglo (dinámico) de punteros a estructuras.
+Esto lo hacemos con la sentencia que define punteros dobles, para `#!c struct nombre` o `nombre_t`.
+Sea la estructura `estudiante_t` definida como
+
+``` c linenums="1"
+typedef struct estudiante {
+    char *nombre;
+    char *apellido;
+} estudiante_t;
+```
+
+podemos definir el arreglo de punteros como
+
+``` c
+estudiante_t **estudiantes;
+```
+
+Luego, podemos asignarle un bloque de memoria dinámica utilizando `malloc()`:
+
+``` c
+estudiantes = (estudiante_t **) malloc(40 * sizeof(estudiante_t));
+```
+
+Finalmente, dada una función que crea un `estudiante` en forma dinámica (que podría seguir el prototipo `#!c
+estudiante_t * estudiante_crear(const char *nombre, const char *apellido)`) utilizaríamos:
+
+``` c linenums="1" hl_lines="14 29"
+status_t crear_arreglo_interactivamente(estudiante_t ***estudiantes, size_t n)
+{
+    char nombre[256];
+    char apellido[256];
+
+    if (NULL == estudiantes) {
+        return ST_ERR_NULL_PTR;
+    }
+
+    if (0 == n) {
+        return ST_ERR_INVALID_ARG;
+    }
+
+    *estudiantes = (estudiante_t **) malloc(n * sizeof(estudiante_t));
+    if (NULL == *estudiantes) {
+        return ST_ERR_ENOMEM;
+    }
+
+    for (size_t i = 0; i < n; ++i) {
+        if (NULL == fgets(nombre, 256, stdin)) {
+            destruir_arreglo_estudiantes(estudiantes, i);
+            return ST_ERR_IO;
+        }
+        if (NULL == fgets(apellido, 256, stdin)) {
+            destruir_arreglo_estudiantes(estudiantes, i);
+            return ST_ERR_IO;
+        }
+
+        (*estudiantes)[i] = estudiante_crear(nombre, apellido);
+        if (NULL == (*estudiante)[i]) {
+            destruir_arreglo_estudiantes(estudiantes, i);
+            return ST_ERR_ENOMEM;
+        }
+    }
+
+    return ST_OK;
+}
+```
+
+Las líneas resaltadas (14 y 29) son las que crean el arreglo y crean los estudiantes en forma dinámica.
+
+Notar que se validan todos los ingresos de datos.
+
+## Modularización
+
+Generalmente, cuando se trabaja con estructuras, estamos implementando funciones que manipulan las estructuras, que las
+crean, o las destruyen, tanto para hacer legible el código como para evitar repetirlo y darle coherencia.
+Imaginen el código escrito en la sección anterior donde, en lugar de utilizar las funciones
+`destruir_arreglo_estudiantes` y `estudiante_crear` en la función `crear_arreglo_interactivamente`, se agrega el código
+de las primeras directamente en el cuerpo de la última (¡3 veces repetiríamos el código de
+`destruir_arreglo_estudiantes`!).
+
+Por ello, una modularización clásica suele contener al menos un archivo `.h` y un archivo `.c`.
+En el encabezado se define la estructura y los prototipos, mientras que en el archivo de implementación se
+implementan---valga la redundancia---las función definidas en el encabezado.
+
+!!! example "Modularización: estudiantes"
+
+    === "Encabezado"
+
+        ``` c linenums="1" title="estudiante.h"
+        --8<-- "estructuras/estudiante.h"
+        ```
+
+    === "Implementación"
+
+        ``` c linenums="1" title="estudiante.c"
+        --8<-- "estructuras/estudiante.c"
+        ```
+
+## Biblioteca estándar para manejo de estructuras
+
+Dado que las estructuras son intrínsecamente un tipo de dato creado por el desarrollador, no hay bibliotecas para
+manejar estructuras arbitrarias.
+
+## Guías de ejercicios
+
+La guía de ejercicios de estructuras se encuentra [aquí](../../guias/c/estructuras/).
