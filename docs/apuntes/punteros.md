@@ -410,7 +410,7 @@ Esquemáticamente, esto lo podemos ver como se muestra en la figura 8.
 
 <figure markdown>
 ![](punteros/ptr_array_4.svg)
-<caption>**Fig. 8:** Matriz formada como puntero doble.</caption>
+<caption>**Fig. 8:** Matriz formada como arreglo de punteros.</caption>
 </figure>
 
 La forma de utilizar esta matriz es similar a las matrices creadas con memoria contigua (`#!c float matriz[4][5];`).
