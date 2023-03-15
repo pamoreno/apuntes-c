@@ -312,7 +312,7 @@ typedef struct empresa {
 typedef struct empleado {
     char *nombre;
     char *apellido;
-    empresa *empresa;
+    empresa_t *empresa;
     cargo_t cargo;
     double salario;
 } empleado_t;
