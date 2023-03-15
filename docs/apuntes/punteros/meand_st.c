@@ -1,9 +1,9 @@
 #include "meand.h"
-#include "state.h"
+#include "status.h"
 
 #include <stdlib.h>
 
-state_t meand(double *mean, double *v, size_t length)
+status_t meand(double *mean, double *v, size_t length)
 {
     double _mean = 0;
 

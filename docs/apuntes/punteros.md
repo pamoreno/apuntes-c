@@ -394,7 +394,7 @@ Prueba con arreglo NULL:
     archivo de pruebas.
     Para eso, podemos definir nuestro propio tipo de datos
 
-    ``` c title="state.h" linenums="1"
+    ``` c title="status.h" linenums="1"
     #pragma once
 
     typedef enum {
@@ -403,41 +403,40 @@ Prueba con arreglo NULL:
         ST_ERR_LZERO_ARRAY,
         ST_ERR_INVALID_ARG,
         ST_ERR_UNKNOWN,
-    } state_t;
+    } status_t;
     ```
 
     El tipo definido internamente es un `#!c int`, pero es irrelevante ya que lo que nos interesa es que el mensaje sea
     claro.
     Veamos su uso en los siguientes archivos:
 
-    === "`state.h`"
+    === "`status.h`"
 
-        ``` c title="state.h" linenums="1"
-        --8<-- "apuntes/punteros/state.h"
+        ``` c title="status.h" linenums="1"
+        --8<-- "apuntes/punteros/status.h"
         ```
 
     === "`meand.h`"
 
-        ``` c title="state.h" linenums="1"
+        ``` c title="meand.h" linenums="1"
         --8<-- "apuntes/punteros/meand.h"
         ```
 
     === "`meand.c`"
 
-        ``` c title="state.h" linenums="1"
+        ``` c title="meand.c" linenums="1"
         --8<-- "apuntes/punteros/meand_st.c"
         ```
 
     === "`test.c`"
 
-        ``` c title="state.h" linenums="1"
+        ``` c title="test.c" linenums="1"
         --8<-- "apuntes/punteros/test_st.c"
         ```
 
     === "Compilación y ejecución"
 
         ``` console
-        $ gcc -std=c17 -Wall -pedantic -c -o test.o test.c 
         $ gcc -std=c17 -Wall -pedantic -c -o meand.o meand.c
         $ gcc -std=c17 -Wall -pedantic -c -o test.o test.c 
         $ gcc -std=c17 -Wall -pedantic    -o test test.o meand.o

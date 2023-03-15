@@ -6,4 +6,4 @@ typedef enum {
     ST_ERR_LZERO_ARRAY,
     ST_ERR_INVALID_ARG,
     ST_ERR_UNKNOWN,
-} state_t;
+} status_t;
