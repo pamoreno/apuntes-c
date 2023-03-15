@@ -684,3 +684,11 @@ Además:
 -   siempre se debe validar el valor devuelto por `malloc`, `calloc` o `realloc`,
 -   siempre se debe liberar la memoria **en cuanto deja de utilizarse**,
 -   nunca debe asignarse el resultado de `realloc` en la misma variable que se le pasa como puntero.
+
+## Biblioteca estándar para manejo de argumentos
+
+Las funciones `malloc`, `free`, `calloc` y `realloc` se encuentran en la biblioteca `stdlib.h`.
+
+## Guías de ejercicios
+
+La guía de ejercicios de memoria dinámica se encuentra [aquí](../../guias/c/memoria/).
