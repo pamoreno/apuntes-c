@@ -65,16 +65,11 @@ Se dice que una cadena es de largo N si tiene N caracteres **antes del primer `'
 Es decir, la cadena `#!c "Hola Mundo!"` tiene largo 11, pero ocupa 12 bytes.
 Para calcular el largo de una cadena, se puede utilizar el siguiente código:
 
-``` c title="Cálculo del largo de una cadena" linenums="1"
-char input[100] = "Hola Mundo!";
-size_t length;
-
-for (length = 0; input[length] != '\0'; ++length) ;
-
-printf("input tiene largo %lu\n", length);
+``` c title="Cálculo del largo de una cadena" linenums="1" hl_lines="9"
+--8<-- "apuntes/cadenas/len.c"
 ```
 
-El ciclo anterio es un ciclo con un cuerpo vacío.
+El ciclo anterior es un ciclo con un cuerpo vacío.
 Es válido utilizar `{}` para indicar un cuerpo vacío en un ciclo, pero se suele indicar con `;` (punto y coma).
 
 ## Automático vs Manual
@@ -82,7 +77,7 @@ Es válido utilizar `{}` para indicar un cuerpo vacío en un ciclo, pero se suel
 Si comparamos los casos `v1` y `v3` (o `v2` y `v4`) la diferencia que podemos ver es la cantidad de caracteres en el
 arreglo.
 En `v1`, como se menciona anteriormente, tenemos 12 chars que fueron calculados por el compilados de manera automática, mientras que en `v3` tenemos 40, dado que manualmente ingresamos dicho valor.
-No hay otra diferencia y su uso depende del caso. 
+No hay otra diferencia y su uso depende del caso.
 
 ## El primer puntero
 
@@ -102,7 +97,7 @@ Hasta el momento, si quisiéramos solicitar el ingreso de algún dato, escribir�
 
     ``` c linenums="1"
     char input[20];
-    
+
     scanf("%s", input);
     printf("%s\n", input);
     ```
@@ -111,7 +106,7 @@ Hasta el momento, si quisiéramos solicitar el ingreso de algún dato, escribir�
 
     ``` c linenums="1"
     char input[20];
-    
+
     scanf("%s", input);
     printf(input);
     ```
@@ -125,24 +120,13 @@ Pero eso es muy fácil que suceda:
 === "Programa"
 
     ``` c linenums="1"
-    #include <stdio.h>
-    #include <stdlib.h>
-
-    int main(void)
-    {
-        char input[20];
-
-        scanf("%s", input);
-        printf("Ingresaste: >>%s<<\n", input);
-
-        return EXIT_SUCCESS;
-    }
+    --8<-- "apuntes/cadenas/scanf.c"
     ```
 
 === "Ejecución"
 
     ``` console
-    $ python -c "print('B' * 27)" | ./scanf 
+    $ python -c "print('B' * 27)" | ./scanf
     Ingresaste: >>BBBBBBBBBBBBBBBBBBBBBBBBBBB<<
     *** stack smashing detected ***: terminated
     Aborted (core dumped)
@@ -171,24 +155,13 @@ entrada (`stdin` por el momento).
 === "Programa"
 
     ``` c
-    #include <stdio.h>
-    #include <stdlib.h>
-    
-    int main(void)
-    {
-        char input[20];
-    
-        fgets(input, 20, stdin);
-        printf("Ingresaste: >>%s<<\n", input);
-    
-        return EXIT_SUCCESS;
-    }
+    --8<-- "apuntes/cadenas/fgets.c"
     ```
 
 === "Ejecución típica"
 
     ``` console
-    $ python -c "print('usando fgets en C')" | ./fgets 
+    $ python -c "print('usando fgets en C')" | ./fgets
     Ingresaste: >>usando fgets en C
     <<
     ```
@@ -198,14 +171,14 @@ entrada (`stdin` por el momento).
 === "Ejecución sin `'\n'`"
 
     ``` console
-    $ python -c "print('usando fgets en C', end='')" | ./fgets 
+    $ python -c "print('usando fgets en C', end='')" | ./fgets
     Ingresaste: >>usando fgets en C<<
     ```
 
 === "Ejecución maliciosa"
 
     ``` console
-    $ python -c "print('B'*9999)" | ./fgets 
+    $ python -c "print('B'*9999)" | ./fgets
     Ingresaste: >>BBBBBBBBBBBBBBBBBBB<<
     ```
 
@@ -260,29 +233,7 @@ Podemos ver que es similar a `scanf()`, sólo que tiene otra cadena antes del fo
 Entonces, la podemos utilizar del siguiente modo:
 
 ``` c title="Uso de `sscanf()`" linenums="1"
-#include <stdio.h>
-#include <stdlib.h>
-
-#define MSG_ERR_INPUT "¡No se ingresó ningún valor!"
-
-static const size_t MAX_SIZE = 100;
-
-int main(void)
-{
-    char input[MAX_SIZE];
-    double value;
-
-    if (NULL == fgets(input, MAX_SIZE, stdin)) {
-        fprintf(stderr, "%s\n", MSG_ERR_INPUT);
-        return EXIT_FAILURE;
-    }
-
-    if (1 == sscanf(input, "%lf", &value)) {
-        printf("Ingresaste %f\n", value);
-    }
-
-    return EXIT_SUCCESS;
-}
+--8<-- "apuntes/cadenas/sscanf.c"
 ```
 
 Sin embargo, existen otras funciones que podemos utilizar para convertir los valores, y se llaman `strtoX()` donde `X`
@@ -290,46 +241,7 @@ puede ser `l` para convertir a `long int`, `d` para convertir a `double`, `ul` p
 ahora, las utilizaremos del siguiente modo (equivalente a utilizar `sscanf()`):
 
 ``` c title="Uso de `strtoX()`" linenums="1"
-#include <stdio.h>
-#include <stdlib.h>
-
-#define MSG_ERR_INPUT "¡No se ingresó ningún valor!"
-#define MSG_ERR_TYPES "Esperaba [dlu]valor :("
-
-static const size_t MAX_SIZE = 100;
-
-int main(void)
-{
-    char input[MAX_SIZE];
-    double dvalue;
-    long lvalue;
-    unsigned long ulvalue;
-
-    if (NULL == fgets(input, MAX_SIZE, stdin)) {
-        fprintf(stderr, "%s\n", MSG_ERR_INPUT);
-        return EXIT_FAILURE;
-    }
-
-    switch (input[0]) {
-    case 'd':
-        dvalue = strtod(input + 1, NULL);
-        printf("Ingresaste %f (double)\n", dvalue);
-        break;
-    case 'l':
-        lvalue = strtol(input + 1, NULL, 10);
-        printf("Ingresaste %li (long)\n", lvalue);
-        break;
-    case 'u':
-        ulvalue = strtoul(input + 1, NULL, 10);
-        printf("Ingresaste %lu (unsigned long)\n", ulvalue);
-        break;
-    default:
-        fprintf(stderr, "%s\n", MSG_ERR_TYPES);
-        return EXIT_FAILURE;
-    }        
-
-    return EXIT_SUCCESS;
-}
+--8<-- "apuntes/cadenas/strtoX.c"
 ```
 
 !!! attention "No free lunch"
@@ -338,10 +250,147 @@ int main(void)
     ejemplo, ingresar `l2930.2939` imprimirá `Ingresaste 2930 (long)`.
     La diferencia con `scanf()` es que `.2939\n` no queda en el buffer de entrada.
 
+## Arreglos de cadenas
+
+Los arreglos de cadenas pueden ser definidos de 2 maneras diferentes.
+
+### Arreglos bidimensionales
+
+En el primer caso, los definimos como arreglos bidimensionales, matrices:
+
+``` c linenums="1"
+char str_array[][20] = {
+    "Primera cadena",
+    "Segunda cadena",
+    "Tercera cadena",
+};
+```
+
+En este caso, inicializamos cada elemento del arreglo de cadenas con una cadena, sin embargo, podríamos hacer una
+pequeña lectura para cargar sus valores:
+
+``` c linenums="1"
+for (size_t i = 0; i < 3; ++i) {
+    fgets(str_array[i], 20, stdin);
+}
+```
+
+### Arreglos de cadenas constantes
+
+En el otro modo, definimos los elementos del arreglo como `v5` (ver [esta sección)[#el-primer-puntero]).
+
+``` c linenums="1"
+char *str_array[] = {
+    "Primera cadena",
+    "Segunda cadena",
+    "Tercera cadena",
+};
+```
+
+Siguiendo la misma lógica que se vió en la sección mencionada, no es posible modificar las cadenas, por ejemplo, con
+`#!c str_array[0][0] = 'p';`.
+Sin embargo, sí es válido asignar otra cadena completamente, del siguiente modo:
+
+``` c linenums="1"
+char *str_array[] = {
+    "Primera cadena",
+    "Segunda cadena",
+    "Tercera cadena",
+};
+
+char *reemplazo = "Cadena reemplazada";
+
+str_array[0] = "Primer reemplazo";
+str_array[1] = reemplazo;
+```
+
+Es decir, lo que son constantes son las cadenas, no el arreglo.
+
+## Cadenas y funciones
+
+Todas nuestras funciones que trabajen con cadenas deben esperar recibir un arreglo **terminado en `'\0'`**, es decir,
+una cadena, y deben devolver una cadena, es decir, un arreglo **terminado en `'\0'`**.
+
+Veamos las siguientes funciones, que podríamos implementar.
+
+=== "`mi_strlen`"
+
+    La primera, la más simple, es calcular el largo de una cadena.
+    Como una cadena finaliza al encontrar el primer `'\0'`, simplemente debemos contar la cantidad de caracteres que hay
+    antes del `'\0'`.
+    Es una función equivalente a `strlen` de `string.h`.
+
+    ``` c linenums="1" title="mi_strlen"
+    --8<-- "apuntes/cadenas/mi_strlen.c"
+    ```
+
+=== "`mi_strchr`"
+
+    Ahora, implementemos una función para obtener la posición de un caracter adentro de una cadena, por ejemplo, `'t'` en `"pato"`.
+    Esta función, si no encuentra el caracter, nos retornará -1.
+    Es similar a función `strchr` de `string.h`.
+
+    ``` c linenums="1" title="mi_strchr"
+    --8<-- "apuntes/cadenas/mi_strchr.c"
+    ```
+
+=== "`mi_strreplace`"
+
+    Esta función no tiene un equivalente en la biblioteca estandar, y la utilizaremos para reemplazar `n` ocurrencias de
+    un caracter en una cadena.
+    En particular, si `n` es `-1`, se reemplazan todas las que haya.
+
+    ``` c linenums="1" title="mi_strreplace"
+    --8<-- "apuntes/cadenas/mi_strreplace.c"
+    ```
+
+=== "`mi_strcpy`"
+
+    También podemos escribir una función para copiar una cadena en un arreglo.
+
+    ``` c linenums="1" title="mi_strcpy"
+    --8<-- "apuntes/cadenas/mi_strcpy.c"
+    ```
+
+=== "`mi_strcat`"
+
+    O para concatenar cadenas (el operador `+` no funciona con cadenas):
+
+    ``` c linenums="1" title="mi_strcat"
+    --8<-- "apuntes/cadenas/mi_strcat.c"
+    ```
+
+=== "`mi_strcmp`"
+
+    O para comparar cadenas (los operadores de comparación no funcionan con cadenas):
+
+    ``` c linenums="1" title="mi_strcmp"
+    --8<-- "apuntes/cadenas/mi_strcmp.c"
+    ```
+
+=== "`print_str_array`"
+
+    Mezclando arreglos y cadenas en una función para imprimir un arreglo de cadenas.
+
+    ``` c linenums="1" title="print_str_array"
+    --8<-- "apuntes/cadenas/print_str_array.c"
+    ```
+
+!!! note "Ejercicio"
+
+    Escribir programas que testeen las funciones provistas en búsqueda de errores ¿qué casos se les ocurre probar?
+
 ## Biblioteca estándar para manejo de cadenas
 
 Existe una biblioteca estándar para el uso de cadenas, `string.h`.
 En ella pueden encontrar funciones de comparación de cadenas, para saber si dos cadenas son iguales (`strcmp()`), para
 calcular su longitud (`strlen()`), etc.
 
+Todas las funciones que trabajan con cadenas esperan recibir un arreglo **terminado en `'\0'`** y (casi todas) devuelven
+un arreglo también **terminado en `'\0'`**.
+
 Pueden ver un listado completo de las funciones en [cppreference](https://en.cppreference.com/w/cpp/header/cstring).
+
+## Guías de ejercicios
+
+La guía de ejercicios de cadenas se encuentra [aquí](../../guias/c/cadenas/).
