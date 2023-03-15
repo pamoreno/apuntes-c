@@ -442,7 +442,7 @@ cantidad de elementos en cada fila, en cada cadena.
 ### Arreglos de cadenas
 
 Un caso particular de los arreglos de punteros es el de arreglos de cadenas.
-Como vimos, un literal de cadena, por ejemplo `#!c "Patricio"` es un arreglo de `#!char` terminado en `#!c '\0'` y
+Como vimos, un literal de cadena, por ejemplo `#!c "Patricio"` es un arreglo de `#!c char` terminado en `#!c '\0'` y
 ubicado en una posición de memoria constante.
 No lo podemos modificar.
 Al definir una variable como:
