@@ -524,7 +524,7 @@ estudiante_t **estudiantes;
 Luego, podemos asignarle un bloque de memoria dinámica utilizando `malloc()`:
 
 ``` c
-estudiantes = (estudiante_t **) malloc(40 * sizeof(estudiante_t));
+estudiantes = (estudiante_t **) malloc(40 * sizeof(estudiante_t *));
 ```
 
 Finalmente, dada una función que crea un `estudiante` en forma dinámica (que podría seguir el prototipo `#!c
@@ -544,7 +544,7 @@ status_t crear_arreglo_interactivamente(estudiante_t ***estudiantes, size_t n)
         return ST_ERR_INVALID_ARG;
     }
 
-    *estudiantes = (estudiante_t **) malloc(n * sizeof(estudiante_t));
+    *estudiantes = (estudiante_t **) malloc(n * sizeof(estudiante_t *));
     if (NULL == *estudiantes) {
         return ST_ERR_ENOMEM;
     }
